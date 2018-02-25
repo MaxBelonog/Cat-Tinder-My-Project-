@@ -54,7 +54,7 @@ class App extends Component {
                   </Col>
                   <Col xs={4}>
                     <small>
-                      <Link to='/cats' id='cats-link'>Show me the Cats</Link>
+                      <Link to='/cats' id='cats-link'>Back to main Page</Link>
                     </small>
                   </Col>
                 </Row>
@@ -82,7 +82,7 @@ class App extends Component {
                </div> 
             </Grid>
           )} />
-          <Route exact path="/cats" render={props => (
+          <Route exact path="/newcats" render={props => (
             <Grid>
               <PageHeader>
                 <Row>
@@ -98,13 +98,16 @@ class App extends Component {
                 </Row>
               </PageHeader>
                 <NewCat newcat={this.state.newcats} />
-              <div className='Footer'>
-                <p>©  Copyright</p>
-              </div>
             </Grid>
           )} />
+          <Grid>
+            <div className='Footer'>
+              <p>©  Copyright 2018 Max Belonog, Inc.</p>
+            </div>
+          </Grid>
+ 
         </div>
-
+       
       </Router>
     )
   }
