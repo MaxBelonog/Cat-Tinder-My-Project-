@@ -7,6 +7,9 @@
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
+.form {
+  block-size: 900pc;
+}
 
 .App-header {
   background-color: #222;
@@ -26,7 +29,9 @@
   font-size: large;
 }
 .Cats-List {
-  background-color: rgba(78, 66, 32, 0.171)
+  background-color: rgba(78, 66, 32, 0.171);
+  block-size: 900pt ;
+  
 }
 .Footer {
   font-size: 10pt;

@@ -31,7 +31,8 @@ class NewCat extends Component {
     handleSubmit() {
         this.props.onSubmit(this.state.form)
     }
-
+    
+    
     errorsFor(attribute) {
         var errorString = ""
         if (this.props.errors) {
@@ -51,7 +52,7 @@ class NewCat extends Component {
                         {this.props.errors &&
                             <Alert bsStyle="danger">
                                 Please check the form and try again
-              </Alert>
+                            </Alert>
                         }
                     </Col>
                 </Row>
@@ -68,7 +69,7 @@ class NewCat extends Component {
                                 onChange={this.handleChange.bind(this)}
                             />
                             {this.errorsFor('name') &&
-                                <HelpBlock id="name-help-block">{this.errorsFor('name')}</HelpBlock>
+                             <HelpBlock id="name-help-block">{this.errorsFor('name')}</HelpBlock>
                             }
                         </FormGroup>
                     </Col>
@@ -115,9 +116,9 @@ class NewCat extends Component {
 
                 <Row>
                     <Col xs={6}>
-                        <Button
-                            onClick={this.handleSubmit.bind(this)}
-                            id="submit">Create Cat Profile</Button>
+                        <Button id="submit" onClick={this.handleSubmit.bind(this)}>
+                            Create Cat Profile
+                        </Button>
                     </Col>
                 </Row>
 

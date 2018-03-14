@@ -39,7 +39,7 @@ it("passes values on submit", () => {
     const mockSubmitHandler = jest.fn()
     const component = mount(<NewCat onSubmit={mockSubmitHandler} />)
     component.find('input[name="name"]').simulate('change', { target: { value: 'Paws', name: 'name' } })
-    component.find('input[name="age"]').simulate('change', { target: { value: 2, name: 'age' } })
+    component.find('input[name="age"]').simulate('change', { target: { value: 2 , name: 'age' } })
     component.find('textarea[name="enjoys"]').simulate('change', { target: { value: 'Scratches', name: 'enjoys' } })
     component.find('button#submit').simulate('click', { button: 0 })
 
