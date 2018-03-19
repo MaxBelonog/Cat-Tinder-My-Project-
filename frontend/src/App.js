@@ -26,51 +26,55 @@ class App extends Component {
     this.state = {
       apiUrl: "http://localhost:3000",
       cats: [],
-      NewCatSuccess: fales,
+      NewCatSuccess: "",
       errors: null
     }
+    
   } 
-  //  componantWillMount..,on rendering...
-
-
-  handleNewcat(params) {
-    console.log(this.state.errors)
-      fetch(`${this.state.apiUrl}/cats`,
-        {
-          body: JSON.stringify(params),  // <- we need to stringify the json for fetch
-          headers: {  // <- We specify that we're sending JSON, and expect JSON back
-            'Content-Type': 'application/json'
-          },
-          method: "POST"  // <- Here's our verb, so the correct endpoint is invoked on the server
-        }
-      )
-      .then((rawResponse) => {
-         return rawResponse.json()
-      })
-      .then((parsedResponse) => {
-        if (parsedResponse.errors) { // <- Check for any server side errors
-          this.setState({ errors: parsedResponse.errors })
-        }else{
-          const cats = Object.assign([], this.state.cats)
-          cats.push(parsedResponse.cat) // <- Add the new cat to our list of cats
-          this.setState({
-            cats: cats,  // <- Update cats in state
-            errors: null,// <- Clear out any errors if they exist
-            NewCatSuccess: true
-          })
-        }
-      })
-  }
-
-  componentWillMount(){
+  /*
+ * componentWillMount fires everytime the component is rendered
+ * to the dom
+ */
+  componentWillMount() {
     fetch(`${this.state.apiUrl}/cats`)
       .then((rawResponse) => {
         return rawResponse.json()
       })
       .then((parsedResponse) => {
+        console.log(parsedResponse.cats)
         this.setState({ cats: parsedResponse.cats })
       })
+    
   }
+  
+
+  handleNewcat(params) {
+    console.log(this.state.errors)
+    fetch(`${this.state.apiUrl}/cats`,
+      {
+        body: JSON.stringify(params),  // <- we need to stringify the json for fetch
+        headers: {  // <- We specify that we're sending JSON, and expect JSON back
+          'Content-Type': 'application/json'
+        },
+        method: "POST"  // <- Here's our verb, so the correct endpoint is invoked on the server
+      }
+    )    
+    .then((parsedResponse) => {
+      if (parsedResponse.errors) {
+        this.setState({ errors: parsedResponse.errors })
+      }else{
+        const cats = Object.assign([], this.state.cats)
+        cats.push(parsedResponse.cat)
+        this.setState({
+          cats: cats,
+          errors: null,
+          newCatSuccess: true // <- This is the new flag in state
+        })
+      }
+    })
+  }
+
+
 
 
 
@@ -81,98 +85,154 @@ class App extends Component {
 
    
   render() {
+    
+
     return (
       <Router>
-      <div>
-        <Carousel>
-          <Carousel.Item>
-            <img width={900} height={500} alt="900x500" src="https://images.unsplash.com/photo-1489084917528-a57e68a79a1e?auto=format&fit=crop&w=1050&q=80" height="900px" width="500px" />
-            <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img width={900} height={500} alt="900x500" src="https://images.unsplash.com/photo-1491485880348-85d48a9e5312?auto=format&fit=crop&w=1050&q=80" height="900px" width="500px" />
-            <Carousel.Caption>
-              <h3>Second slide label</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img width={900} height={500} alt="900x500" src="https://images.unsplash.com/photo-1472491235688-bdc81a63246e?auto=format&fit=crop&w=1050&q=80" />
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
-      </div>
-      
         <div>
-          <Route exact path="/" render={props => (
-            <Grid>
-              <PageHeader>
-                <Row>
-                  <Col xs={8}>
-                    Cat Tinder
-                    <small className='subtitle'>
-                      Add a Cat
-                    </small>
-                  </Col>
-                  <Col xs={4}>
-                    <small>
-                      <Link to='/cats' id='cats-link'>Back to main Page</Link>
-                    </small>
-                  </Col>
-                </Row>
-              </PageHeader>
-            </Grid>
-          )} />
-
-          <Route exact path="/cats" render={props => (
-            <Grid>
-              <PageHeader>
-                <Row>
-                  <Col xs={8}>
-                    Cat Tinder
-                    <small className='subtitle'>All the Cats</small>
-                  </Col>
-                </Row>
-              </PageHeader>
-               <div>
-                <Cats cats={this.state.cats} />
-               </div> 
-            </Grid>
-          )} />
-          <Route exact path="/newcats" render={props => (
-            <Grid>
-              <PageHeader>
-                <Row>
-                  <Col xs={8}>
-                    Cat Tinder
-                    <small className='subtitle'>Back to See all the Mambers</small>
-                  </Col>
-                  <Col xs={4}>
-                    <small>
-                      <Link to='/' id='cats-link'>create PROFILE Page</Link>
-                    </small>
-                  </Col>
-                </Row>
-              </PageHeader>
-                <NewCat newcat={this.state.newcats} />
-            </Grid>
-          )} />
-          <Grid>
-            <div className='Footer'>
-              <p>©  Copyright 2018 Max Belonog, Inc.</p>
+          
+          <div>
+            <Navbar inverse collapseOnSelect>
+                  <Navbar.Header>
+                    <Navbar.Brand>
+                      <a href="#brand">Cat tinder</a>
+                    </Navbar.Brand>
+                      <Navbar.Toggle />
+                  </Navbar.Header>
+                  <Navbar.Collapse>
+                    <Nav>
+                        <NavItem eventKey={1} href="/">
+                          Home 
+                        </NavItem>
+                        <NavItem eventKey={2} href="/cats">
+                          MEOW to List
+                        </NavItem>
+                       <NavDropdown eventKey={3} title="Meows Profile" id="basic-nav-dropdown">
+                          <MenuItem eventKey={3.1}>profile Page</MenuItem>
+                          <MenuItem eventKey={3.2}>edit</MenuItem>
+                          <MenuItem eventKey={3.3}>signOut</MenuItem>
+                          <MenuItem divider />
+                          <MenuItem eventKey={3.3}>Privecy</MenuItem>
+                        </NavDropdown>
+                    </Nav>
+                    
+                  </Navbar.Collapse>
+            </Navbar>
+          </div>
+          <div className = 'Carousel'>
+          <Carousel>
+            <Carousel.Item>
+                <img width={900} height={500} alt="900x500" src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/portrait-of-lion-in-black-and-white-ii-lukas-holas.jpg" />              <Carousel.Caption>
+                <h3>Leonard Goof the 1st</h3>
+                <p>loves going to work with his owner.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+                <img  alt="900x500" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfRKcZYRl6UxubwT6ZOVUSNfnrtzIG_b8ZP8jtc3dl-alVrT-G" />
+              <Carousel.Caption>
+                <h3>Thinkil Overloadova</h3>
+                <p>She convenset that she is good, and we all here to surv her highness.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+                <img width={900} height={500} alt="900x500" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg-JB_eHlfaRuL7EcZ_xoReQcTuGGubjtcUTgvPZBlNKcPnlqv" />              
+              <Carousel.Caption>
+                <h3>Third slide label</h3>
+                <p></p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>;
+          </div>
+            
+          <div>
+            <Route exact path="/" render={props => (
+              <Grid>
+                <PageHeader>
+                  <Row>
+                    <Col xs={8}>
+                      Cat Tinder
+                      <small className='subtitle'>
+                        Add a Cat
+                      </small>
+                    </Col>
+                    <Col xs={4}>
+                      <small>
+                        <Link to='/' id='cats-link'>Back to main Page</Link>
+                      </small>
+                    </Col>
+                  </Row>
+                </PageHeader>
+              </Grid>
+            )} />
+          </div>
+          <div>
+              <Route exact path="/cats" render={props => (
+                <Grid>
+                  <PageHeader>
+                    <Row>
+                      <Col xs={8}>
+                        Cat Tinder
+                        <small className='subtitle'>To See few of our Mewo</small>
+                      </Col>
+                    </Row>
+                  </PageHeader>
+                    <div>
+                    <Cats cats={this.state.cats} />
+                    </div> 
+                </Grid>
+              )} />
             </div>
-          </Grid>
- 
+            <div>
+            <Route exact path="/newcats" render={props => (
+              <Grid>
+                <PageHeader>
+                  <Row>
+                    <Col xs={8}>
+                      Cat Tinder
+                      <small className='subtitle'>Back to See all the Mambers</small>
+                    </Col>
+                    <Col xs={4}>
+                      
+                      <small>
+                        <Link to='/' id='cats-link'>create PROFILE Page</Link>
+                      </small>
+                    </Col>
+                  </Row>
+                </PageHeader>
+                  <NewCat newcat={this.state.newcats} />
+                </Grid>
+            )} />
+            <Grid>
+              <div className='Footer'>
+                <p>©  Copyright 2018 Max Belonog, Inc.</p>
+              </div>
+            </Grid>       
+            </div>
+          <div>
+            <Route exact path="/cats" render={props => (
+              <Grid>
+                <PageHeader>
+                  <Row>
+                    <Col xs={8}>
+                      Cat Tinder
+                      <small className='subtitle'>
+                        All the Cats
+                      </small>
+                    </Col>
+                  </Row>
+                </PageHeader>
+                
+                <Cats cats={this.state.cats} />
+                <NewCat
+                  onSubmit={this.handleNewcat.bind(this)}
+                  errors={this.state.errors && this.state.errors.validations}
+                />
+              </Grid>
+            )} />
+          </div>
         </div>
-       
       </Router>
-    )
+    );
   }
 }    
 

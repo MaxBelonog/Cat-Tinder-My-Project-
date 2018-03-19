@@ -1,22 +1,19 @@
 .App {
   text-align: center;
-  background-color: teal;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
-.form {
-  block-size: 900pc;
-}
+  
 
 .App-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: rgb(181, 218, 138);
-  background-color: blanchedalmond;
+  background-color: rgb(211, 135, 21);
 
 }
 
@@ -38,16 +35,18 @@
   text-align: center;
   
 }
+.Carousel.Item  { 
+  size: auto;
 
-.page-header {
-  background-color: burlywood;
-  font-family: cursive;
-  margin-top: auto;
 }
-.page-header subtitle {
-  font-size: 6cm;
+.carousel-inner {
+  padding: 100pt;
 }
- .
+
+.img {
+  padding: 600pt;
+}
+ 
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

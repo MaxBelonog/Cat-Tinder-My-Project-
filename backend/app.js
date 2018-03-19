@@ -1,12 +1,15 @@
 var express = require('express');
+var cors = require('cors') 
 var Cat = require('./src/models').Cat
 var bodyParser = require('body-parser');
 var validator = require('express-validator')
 var app = express();
 
 app.use(express.static('public'))
+app.use(cors())
 app.use(bodyParser.json())
 app.use(validator())
+
 
 app.set('view engine', 'ejs')
 app.set('view engine', 'ejs') //leting the expll be using ejs...ress know wi
